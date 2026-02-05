@@ -46,6 +46,8 @@ You can run the simulator with Docker Compose:
 ## Environment
 - Configuration files: src/PaymentGateway.Api/appsettings.json and appsettings.Development.json
 
+## Assumptions
+All invalid requests are rejected before contacting the bank, and only a single bank (the simulator running on localhost) is supported. No retries, fallback logic, or multi-bank support is implemented. The solution does not include horizontal scaling, concurrency control, idempotency handling, or structured logging/observability infrastructure. Unit tests cover validation rules and service behavior using a fake bank client, while integration tests exercise end-to-end flows with the in-memory repository and the bank simulator.
 
 # Instructions for candidates
 
