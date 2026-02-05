@@ -1,19 +1,19 @@
 ## Build
 From the repository root:
 
-- Build all projects in the solution
+- Build all projects in the solution:
   dotnet build
 
-- Build just the API project
+- Build just the API project:
   dotnet build src/PaymentGateway.Api/PaymentGateway.Api.csproj
 
-- Build just the test project
+- Build just the test project:
   dotnet build test/PaymentGateway.Api.Tests/PaymentGateway.Api.Tests.csproj
 
 ## Run the API
 From the repository root:
 
-- Run directly (development settings)
+- Run directly (development settings):
   dotnet run --project src/PaymentGateway.Api/PaymentGateway.Api.csproj
 
 The API will start and expose Swagger (in development) at:
@@ -27,20 +27,20 @@ Example requests:
 ## Run Tests
 From the repository root:
 
-- Run all tests
+- Run all tests:
   dotnet test
 
-- Run tests for a specific project
+- Run tests for a specific project:
   dotnet test test/PaymentGateway.Api.Tests/PaymentGateway.Api.Tests.csproj
 
 ## Bank Simulator (optional)
 The API uses an HTTP client to talk to a bank simulator running at http://localhost:8080.
 You can run the simulator with Docker Compose:
 
-- Start simulator
+- Start simulator:
   docker compose up -d
 
-- Stop simulator
+- Stop simulator:
   docker compose down
 
 ## Environment
