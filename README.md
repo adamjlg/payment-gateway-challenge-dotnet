@@ -46,8 +46,31 @@ You can run the simulator with Docker Compose:
 ## Environment
 - Configuration files: src/PaymentGateway.Api/appsettings.json and appsettings.Development.json
 
+## Design Considerations
+- The solution is designed to be clear, modular, and maintainable. Classes have a single responsibility. The validator handles input validation, service implements business logic and bank interaction, repository stores payments in memory, and the controller exposes the API. This separation makes the code easier to test and extend.
+
+- All input validation occurs before any bank interaction. This prevents invalid requests from reaching the bank, reducing unnecessary calls.
+
+- The IBankClient interface abstracts the bank interaction allowing the real simulator or a fake bank to be swapped easily in tests. This supports both unit and integration testing without requiring a live bank connection.
+
+- Payments are stored in an in memory repository for simplicity.
+
+- Bank responses are mapped to clear payment statuses. Any unexpected errors or invalid responses result in a rejected status to ensure predictable behavior.
+
+- Unit Tests: Validate individual rules, such as card number format, expiry dates, CVV, and currency. The service is also tested with a fake bank client to ensure correct behavior without calling the real bank.
+
+- Integration Tests: Test end-to-end API flows using the in-memory repository and the bank simulator. This ensures the system behaves as expected in realistic scenarios.
+
+- Full card numbers are never returned in API responses. Only the last four digits are exposed for security.
+
+- The design could be refactored for scalability in the future.
+
+- Some basic logs are presented to the user on input validation fail via api response
+
+- While the current implementation supports only a single bank and basic validation, the architecture allows extension to multiple banks or retry mechanisms without major refactoring.
+
 ## Assumptions
-All invalid requests are rejected before contacting the bank, and only a single bank (the simulator running on localhost) is supported. No retries, fallback logic, or multi-bank support is implemented. The solution does not include horizontal scaling, concurrency control, idempotency handling, or structured logging/observability infrastructure. Unit tests cover validation rules and service behavior using a fake bank client, while integration tests exercise end-to-end flows with the in-memory repository and the bank simulator.
+All invalid requests are rejected before contacting the bank, and only a single bank (the simulator running on localhost) is supported. No retries, fallback logic, or multi-bank support is implemented. Assume its sufficient for the transaction status to be rejected if an unexpected error occurs during the transaction. The solution does not include idempotency handling or structured logging/observability infrastructure. Testing checks core operations but does not test edge cases. Assume its sufficient to be open to extension, but not fully implement this.
 
 # Instructions for candidates
 
