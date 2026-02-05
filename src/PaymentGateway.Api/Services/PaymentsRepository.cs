@@ -1,18 +1,14 @@
-﻿using PaymentGateway.Api.Models.Responses;
+﻿using PaymentGateway.Api.Models.Domain;
+using PaymentGateway.Api.Models.Responses;
 
 namespace PaymentGateway.Api.Services;
-
+// this is an in memory repository, storage only no business logic
+// we store our own internal payment model with full info, not exposed to merchant
 public class PaymentsRepository
 {
-    public List<PostPaymentResponse> Payments = new();
-    
-    public void Add(PostPaymentResponse payment)
-    {
-        Payments.Add(payment);
-    }
+    private readonly List<InternalPayment> _payments = new();
 
-    public PostPaymentResponse Get(Guid id)
-    {
-        return Payments.FirstOrDefault(p => p.Id == id);
-    }
+    public void Add(InternalPayment payment) => _payments.Add(payment);
+
+    public InternalPayment Get(Guid id) => _payments.FirstOrDefault(p => p.Id == id);
 }
